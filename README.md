@@ -12,14 +12,14 @@ or through the usaual route-related Attributes (aka attriubte based);
     public class GridController : Controller {
     ...
 ```
-## Screenshot
-
-![Screenshot](./Screenshot.png)
-
 ## Packages
 |   |  Stable   |   CI |
 | - | -------------- | -------------- | 
 | AspNetCore.DisplayRoutes | ![NuGet](https://img.shields.io/nuget/v/AspNetCore.DisplayRoutes?logoColor=%20) | [GPR](https://github.com/dogguts/AspNetCore.DisplayRoutes/packages/324648) |
+
+## Screenshot
+
+![Screenshot](./Screenshot.png)
 
 ## Usage
 AspNetCode.DisplayRoutes can add an additional route to your application where, when visited, will report all registered routes in your application.
