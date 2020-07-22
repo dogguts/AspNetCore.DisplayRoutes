@@ -1,9 +1,16 @@
 # AspNetCore.DisplayRoutes
 View route information for AspNetCore projects.  
-Given that routes are registered with the (new since 3.0) AspNetCore IEndpointRouteBuilder, like below, or through Attributes; 
+Given that routes are registered with the (new since 3.0) AspNetCore IEndpointRouteBuilder (aka convention based), like below;
 
 ```c#
   app.UseEndpoints(endpoints => { ...
+```
+or through the usaual route-related Attributes (aka attriubte based); 
+```c#
+    [Area("Dashboard")]
+    [Route("[area]/{collectionId?}/[controller]/[action]/{id?}")]
+    public class GridController : Controller {
+    ...
 ```
 ## Screenshot
 
