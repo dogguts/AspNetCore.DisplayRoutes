@@ -1,0 +1,50 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+    paths-ignore: 
+      - 'README.md'
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+       
+    - name: Build
+      run: dotnet build AspNetCore.DisplayRoutes.sln --configuration Release
+ 
+    - name: Pack
+      run: |
+        dotnet pack src/AspNetCore.DisplayRoutes --configuration Release --include-symbols --include-source -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -o packages /p:VersionSuffix=$GITHUB_WORKFLOW-$GITHUB_RUN_NUMBER-$GH_SHORT_SHA /p:RepositoryCommit=$GITHUB_SHA
+        
+    - name: GPR NuGet config
+      shell: bash
+      env:
+        WORKSPACE: ${{ github.workspace }}
+      run: |
+        echo ::set-env name=GH_SHORT_SHA::"`git rev-parse --short "$GITHUB_SHA"`"
+        mv github_nuget.config nuget.config
+        sed -i.bak 's/GITHUB_TOKEN/${{ secrets.GITHUB_TOKEN }}/g' nuget.config; rm nuget.config.bak
+            
+    - name: Publish packages to GPR
+      run: | 
+        ls packages/*.*nupkg
+        dotnet nuget push 'packages/*.nupkg' --skip-duplicate --source "github" -k ${{secrets.GITHUB_TOKEN}}
+    
+#    - name: Publish packages to NuGet.org
+#      run: |
+#        dotnet nuget push 'packages/*.nupkg' --skip-duplicate -s https://api.nuget.org/v3/index.json -k ${{secrets.NUGET_KEY}}
+        
+#  test:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: Test
+#      run: dotnet test --logger "github;report-warnings=false;GITHUB_TOKEN=${{secrets.GITHUB_TOKEN}}" -c Debug
