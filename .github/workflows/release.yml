@@ -1,0 +1,56 @@
+name: Release
+on:
+  release:
+    types: [published]
+#  push:           #TEST emulate release on push on master
+#    branches:     #TEST emulate release on push on master
+#      - master    #TEST emulate release on push on master
+
+jobs:
+  build:
+    env:
+      CONFIGURATION: Release
+      BUILDPATH: src/AspNetCore.DisplayRoutes
+      NUPKGPATH: packages
+      
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: REL_*
+      run: | 
+        REL_GITHUB_REF=$GITHUB_REF
+        echo '::set-env name=REL_GITHUB_REF::'$GITHUB_REF
+        #REL_GITHUB_REF="refs/tags/v0.0.1-alpha$GITHUB_RUN_NUMBER" #TEST emulate release on push on master
+        #echo '::set-env name=REL_GITHUB_REF::'$REL_GITHUB_REF     #TEST emulate release on push on master
+        REL_VERSION="${REL_GITHUB_REF/refs\/tags\/v/}"  
+        echo '::set-env name=REL_VERSION::'$REL_VERSION
+        REL_VERSION_ONLY=$( echo "$REL_VERSION" | cut -d\- -f1) 
+        echo '::set-env name=REL_VERSION_ONLY::'$REL_VERSION_ONLY
+      
+    - name: debug/test
+      run: | 
+        env
+        
+    - name: Build
+      run: dotnet build $BUILDPATH --configuration $CONFIGURATION
+  
+    - name: Pack
+      run: |
+        CMD="dotnet pack $BUILDPATH \
+        --configuration $CONFIGURATION \
+        --include-symbols \
+        --include-source \
+        -p:IncludeSymbols=true \
+        -p:SymbolPackageFormat=snupkg \
+        /p:Version=$REL_VERSION \
+        /p:RepositoryCommit=$GITHUB_SHA \
+        /p:AssemblyVersion=$REL_VERSION_ONLY \
+        /p:FileVersion=$REL_VERSION_ONLY \
+        -o $NUPKGPATH"
+        echo $CMD
+        ${CMD}
+
+#    - name: Publish packages to NuGet.org
+#      run: |
+#        dotnet nuget push $NUPKGPATH'/*.nupkg' --skip-duplicate -s https://api.nuget.org/v3/index.json -k ${{secrets.NUGET_KEY}}
