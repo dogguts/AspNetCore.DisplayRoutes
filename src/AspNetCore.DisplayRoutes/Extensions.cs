@@ -34,7 +34,7 @@ namespace AspNetCore.DisplayRoutes {
 
                 await context.Response.WriteAsync(GetReport(options.Renderer, routeBuilder.DataSources), Encoding.UTF8);
             });
-            builder.WithDisplayName($"{options.Pattern} HTTP: {string.Join(", ", new[] { "GET" })}");
+            builder.WithDisplayName($"{options.Pattern} HTTP: {string.Join(", ", options.HttpMethods)}");
             builder.WithMetadata(options, (new HttpMethodMetadata(options.HttpMethods)));
             return builder;
         }
