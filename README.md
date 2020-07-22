@@ -30,6 +30,7 @@ dotnet add package AspNetCore.DisplayRoutes
 For more options see [NuGet](https://www.nuget.org/packages/AspNetCore.DisplayRoutes/)
 
 ### Register PrintRoutes route
+Create an additional route using the default/predefined options;
 ```C#
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
   ...  
@@ -38,8 +39,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
     endpoints.PrintRoutes();
     ...  
 ```
-This creates an additional route using the default/predefined options.
-Or override the default options; 
+Or override default options; 
 ```C#
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
   ...  
