@@ -12,7 +12,7 @@ Given that routes are registered with the (new since 3.0) AspNetCore IEndpointRo
 ## Packages
 |   |  Stable   |   CI |
 | - | -------------- | -------------- | 
-| AspNetCore.DisplayRoutes | ![Nuget](https://img.shields.io/nuget/v/AspNetCore.DisplayRoutes?logoColor=%20) | [GPR](https://github.com/dogguts/AspNetCore.DisplayRoutes/packages/324648) |
+| AspNetCore.DisplayRoutes | ![NuGet](https://img.shields.io/nuget/v/AspNetCore.DisplayRoutes?logoColor=%20) | [GPR](https://github.com/dogguts/AspNetCore.DisplayRoutes/packages/324648) |
 
 ## Usage
 AspNetCode.DisplayRoutes can add an additional route to your application where, when visited, will report all registered routes in your application.
@@ -27,14 +27,41 @@ or
 #CLI
 dotnet add package AspNetCore.DisplayRoutes
 ```
-or 
-```xml
-<ItemGroup>
- ...
- <PackageReference Include="AspNetCore.DisplayRoutes" Version="1.*" />
- ...
-</ItemGroup>
-```
-or 
-use the "NuGet Package Manager" in Visual Studio
+For more options see [NuGet](https://www.nuget.org/packages/AspNetCore.DisplayRoutes/)
 
+### Register PrintRoutes route
+```C#
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+  ...  
+  app.UseEndpoints(endpoints => {
+    ...  
+    endpoints.PrintRoutes();
+    ...  
+```
+This creates an additional route using the default/predefined options.
+Or override the default options; 
+```C#
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+  ...  
+  app.UseEndpoints(endpoints => {  
+    ...  
+    endpoints.PrintRoutes(o => {
+        o.Renderer = new AspNetCore.DisplayRoutes.Render.HtmlRenderer();
+        o.Pattern = "/myroutes";
+    });
+    ...  
+```
+### Options
+|   |  Option   |   Default |
+| - | -------------- | -------------- | 
+|Pattern| The route path where the route report will be provided  | /routes |
+|HttpMethods | Allowed HTTP methods for the registered route path | \["GET"] |
+|Renderer | The format the routes will be presented | UnicodeBoxRenderer |
+
+### Renderers
+|   |     |   ContentType |
+| - | -------------- | -------------- | 
+| AsciiBoxRenderer |  ![AsciiBoxRenderer](./.github/images/AsciiBoxRenderer.png) | text/plain; charset=UTF-8 |
+| HtmlRenderer | ![HtmlRenderer](./.github/images/HtmlRenderer.png) | text/html; charset=UTF-8 |
+| JsonRenderer |  ![JsonRenderer](./.github/images/JsonRenderer.png) | application/json |
+| UnicodeBoxRenderer |   ![UnicodeBoxRenderer](./.github/images/UnicodeBoxRenderer.png) | text/plain; charset=UTF-8 |
