@@ -3,11 +3,15 @@ on:
   push:
     branches:
       - master
+      - 'feature/**'
+      - 'hotfix/**'
     paths-ignore: 
       - 'README.md'
   pull_request:
     branches:
       - master
+      - 'feature/**'
+      - 'hotfix/**'
   workflow_dispatch:
 
 jobs:
@@ -22,17 +26,19 @@ jobs:
  
     - name: Pack
       run: |
-        dotnet pack src/AspNetCore.DisplayRoutes --configuration Release --include-symbols --include-source -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -o packages /p:VersionSuffix=$GITHUB_WORKFLOW-$GITHUB_RUN_NUMBER-$GH_SHORT_SHA /p:RepositoryCommit=$GITHUB_SHA
+        dotnet pack src/AspNetCore.DisplayRoutes --configuration Release --include-symbols --include-source -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg -o packages /p:VersionSuffix=$GITHUB_WORKFLOW-$GITHUB_RUN_NUMBER-${{ env.GH_SHORT_SHA }} /p:RepositoryCommit=${{ env.GH_SHORT_SHA }}
         
     - name: GPR NuGet config
       shell: bash
       env:
         WORKSPACE: ${{ github.workspace }}
       run: |
-        echo ::set-env name=GH_SHORT_SHA::"`git rev-parse --short "$GITHUB_SHA"`"
+        echo "GH_SHORT_SHA=`git rev-parse --short "$GITHUB_SHA"`" >> $GITHUB_ENV      
+        echo "GH_SHORT_SHA: ${{ env.GH_SHORT_SHA }}" 
+        #echo ::set-env name=GH_SHORT_SHA::"`git rev-parse --short "$GITHUB_SHA"`"
         mv github_nuget.config nuget.config
         sed -i.bak 's/GITHUB_TOKEN/${{ secrets.GITHUB_TOKEN }}/g' nuget.config; rm nuget.config.bak
-            
+        
     - name: Publish packages to GPR
       run: | 
         ls packages/*.*nupkg
