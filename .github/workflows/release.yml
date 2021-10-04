@@ -5,7 +5,8 @@ on:
 #  push:           #TEST emulate release on push on master
 #    branches:     #TEST emulate release on push on master
 #      - master    #TEST emulate release on push on master
-
+  workflow_dispatch:
+  
 jobs:
   build:
     env:
