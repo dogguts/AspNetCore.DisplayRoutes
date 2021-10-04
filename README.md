@@ -19,7 +19,7 @@ or through the usaual route-related Attributes (aka attriubte based);
 
 ## Screenshot
 
-![Screenshot](./Screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/dogguts/AspNetCore.DisplayRoutes/master/Screenshot.png)
 
 ## Usage
 AspNetCode.DisplayRoutes can add an additional route to your application where, when visited, will report all registered routes in your application.
@@ -68,7 +68,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
 ### Renderers
 |   |     |   ContentType |
 | - | -------------- | -------------- | 
-| AsciiBoxRenderer |  ![AsciiBoxRenderer](./.github/images/AsciiBoxRenderer.png) | text/plain; charset=UTF-8 |
-| HtmlRenderer | ![HtmlRenderer](./.github/images/HtmlRenderer.png) | text/html; charset=UTF-8 |
-| JsonRenderer |  ![JsonRenderer](./.github/images/JsonRenderer.png) | application/json |
-| UnicodeBoxRenderer |   ![UnicodeBoxRenderer](./.github/images/UnicodeBoxRenderer.png) | text/plain; charset=UTF-8 |
+| AsciiBoxRenderer |  ![AsciiBoxRenderer](https://raw.githubusercontent.com/dogguts/AspNetCore.DisplayRoutes/master/.github/images/AsciiBoxRenderer.png) | text/plain; charset=UTF-8 |
+| HtmlRenderer | ![HtmlRenderer](https://raw.githubusercontent.com/dogguts/AspNetCore.DisplayRoutes/master/.github/images/HtmlRenderer.png) | text/html; charset=UTF-8 |
+| JsonRenderer |  ![JsonRenderer](https://raw.githubusercontent.com/dogguts/AspNetCore.DisplayRoutes/master/.github/images/JsonRenderer.png) | application/json |
+| UnicodeBoxRenderer |   ![UnicodeBoxRenderer](https://raw.githubusercontent.com/dogguts/AspNetCore.DisplayRoutes/master/.github/images/UnicodeBoxRenderer.png) | text/plain; charset=UTF-8 |
