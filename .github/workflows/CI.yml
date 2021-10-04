@@ -21,12 +21,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: environment
+    - name: set-environment
       run: | 
         echo "action_state=yellow" >> $GITHUB_ENV
-        echo "${{ env.action_state }}"
         echo "GH_SHORT_SHA=`git rev-parse --short "$GITHUB_SHA"`" >> $GITHUB_ENV      
-        echo "GH_SHORT_SHA: ${{ env.GH_SHORT_SHA }}" 
+    - name: check-environment
+      run: | 
+        echo "${{ env.action_state }}"
+        echo "GH_SHORT_SHA: ${{ env.GH_SHORT_SHA }}"
 
     - name: Build
       run: dotnet build AspNetCore.DisplayRoutes.sln --configuration Release
