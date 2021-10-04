@@ -1,12 +1,11 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <PropertyGroup>
-        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        <FileVersion>1.0.0.0</FileVersion>
-        <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
-        <Product>AspNetCore.DisplayRoutes</Product>
-        <Authors>Bart Verthé</Authors>
-    </PropertyGroup>
+  <PropertyGroup>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+    <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
+    <Product>AspNetCore.DisplayRoutes</Product>
+    <Authors>Bart Verthé</Authors>
+  </PropertyGroup>
 </Project>
 
-        

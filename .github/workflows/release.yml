@@ -5,7 +5,8 @@ on:
 #  push:           #TEST emulate release on push on master
 #    branches:     #TEST emulate release on push on master
 #      - master    #TEST emulate release on push on master
-
+  workflow_dispatch:
+  
 jobs:
   build:
     env:
@@ -20,13 +21,13 @@ jobs:
     - name: REL_*
       run: | 
         REL_GITHUB_REF=$GITHUB_REF
-        echo '::set-env name=REL_GITHUB_REF::'$GITHUB_REF
+        echo "REL_GITHUB_REF=$GITHUB_REF" >> $GITHUB_ENV             
         #REL_GITHUB_REF="refs/tags/v0.0.1-alpha$GITHUB_RUN_NUMBER" #TEST emulate release on push on master
-        #echo '::set-env name=REL_GITHUB_REF::'$REL_GITHUB_REF     #TEST emulate release on push on master
+        echo "REL_GITHUB_REF=$REL_GITHUB_REF" >> $GITHUB_ENV       #TEST emulate release on push on master        
         REL_VERSION="${REL_GITHUB_REF/refs\/tags\/v/}"  
-        echo '::set-env name=REL_VERSION::'$REL_VERSION
+        echo "REL_VERSION=$REL_VERSION" >> $GITHUB_ENV             
         REL_VERSION_ONLY=$( echo "$REL_VERSION" | cut -d\- -f1) 
-        echo '::set-env name=REL_VERSION_ONLY::'$REL_VERSION_ONLY
+        echo "REL_VERSION_ONLY=$REL_VERSION_ONLY" >> $GITHUB_ENV             
       
     - name: debug/test
       run: | 
@@ -43,10 +44,10 @@ jobs:
         --include-source \
         -p:IncludeSymbols=true \
         -p:SymbolPackageFormat=snupkg \
-        /p:Version=$REL_VERSION \
+        /p:Version=${{ env.REL_VERSION }} \
         /p:RepositoryCommit=$GITHUB_SHA \
-        /p:AssemblyVersion=$REL_VERSION_ONLY \
-        /p:FileVersion=$REL_VERSION_ONLY \
+        /p:AssemblyVersion=${{ env.REL_VERSION_ONLY }} \
+        /p:FileVersion=${{ env.REL_VERSION_ONLY }} \
         -o $NUPKGPATH"
         echo $CMD
         ${CMD}

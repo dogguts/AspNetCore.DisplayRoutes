@@ -5,7 +5,7 @@ Given that routes are registered with the (new since 3.0) AspNetCore IEndpointRo
 ```c#
   app.UseEndpoints(endpoints => { ...
 ```
-or through the usaual route-related Attributes (aka attriubte based); 
+or through the usual route-related Attributes (aka attribute based); 
 ```c#
     [Area("Dashboard")]
     [Route("[area]/{collectionId?}/[controller]/[action]/{id?}")]
