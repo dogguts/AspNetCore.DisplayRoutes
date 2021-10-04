@@ -20,13 +20,13 @@ jobs:
     - name: REL_*
       run: | 
         REL_GITHUB_REF=$GITHUB_REF
-        echo '::set-env name=REL_GITHUB_REF::'$GITHUB_REF
+        echo "REL_GITHUB_REF=$GITHUB_REF" >> $GITHUB_ENV             
         #REL_GITHUB_REF="refs/tags/v0.0.1-alpha$GITHUB_RUN_NUMBER" #TEST emulate release on push on master
-        #echo '::set-env name=REL_GITHUB_REF::'$REL_GITHUB_REF     #TEST emulate release on push on master
+        echo "REL_GITHUB_REF=$REL_GITHUB_REF" >> $GITHUB_ENV       #TEST emulate release on push on master        
         REL_VERSION="${REL_GITHUB_REF/refs\/tags\/v/}"  
-        echo '::set-env name=REL_VERSION::'$REL_VERSION
+        echo "REL_VERSION=$REL_VERSION" >> $GITHUB_ENV             
         REL_VERSION_ONLY=$( echo "$REL_VERSION" | cut -d\- -f1) 
-        echo '::set-env name=REL_VERSION_ONLY::'$REL_VERSION_ONLY
+        echo "REL_VERSION_ONLY=$REL_VERSION_ONLY" >> $GITHUB_ENV             
       
     - name: debug/test
       run: | 
@@ -51,6 +51,6 @@ jobs:
         echo $CMD
         ${CMD}
 
-    - name: Publish packages to NuGet.org
-      run: |
-        dotnet nuget push $NUPKGPATH'/*.nupkg' --skip-duplicate -s https://api.nuget.org/v3/index.json -k ${{secrets.NUGET_KEY}}
+#    - name: Publish packages to NuGet.org
+#      run: |
+#        dotnet nuget push $NUPKGPATH'/*.nupkg' --skip-duplicate -s https://api.nuget.org/v3/index.json -k ${{secrets.NUGET_KEY}}
