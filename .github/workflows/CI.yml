@@ -20,7 +20,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-       
+
+    - name: environment
+      run: | 
+        echo "GH_SHORT_SHA=`git rev-parse --short "$GITHUB_SHA"`" >> $GITHUB_ENV      
+        echo "GH_SHORT_SHA: ${{ env.GH_SHORT_SHA }}" 
+
     - name: Build
       run: dotnet build AspNetCore.DisplayRoutes.sln --configuration Release
  
@@ -33,8 +38,8 @@ jobs:
       env:
         WORKSPACE: ${{ github.workspace }}
       run: |
-        echo "GH_SHORT_SHA=`git rev-parse --short "$GITHUB_SHA"`" >> $GITHUB_ENV      
-        echo "GH_SHORT_SHA: ${{ env.GH_SHORT_SHA }}" 
+        #echo "GH_SHORT_SHA=`git rev-parse --short "$GITHUB_SHA"`" >> $GITHUB_ENV      
+        #echo "GH_SHORT_SHA: ${{ env.GH_SHORT_SHA }}" 
         #echo ::set-env name=GH_SHORT_SHA::"`git rev-parse --short "$GITHUB_SHA"`"
         mv github_nuget.config nuget.config
         sed -i.bak 's/GITHUB_TOKEN/${{ secrets.GITHUB_TOKEN }}/g' nuget.config; rm nuget.config.bak
