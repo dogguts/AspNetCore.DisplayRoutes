@@ -52,6 +52,6 @@ jobs:
         echo $CMD
         ${CMD}
 
-#    - name: Publish packages to NuGet.org
-#      run: |
-#        dotnet nuget push $NUPKGPATH'/*.nupkg' --skip-duplicate -s https://api.nuget.org/v3/index.json -k ${{secrets.NUGET_KEY}}
+    - name: Publish packages to NuGet.org
+      run: |
+        dotnet nuget push $NUPKGPATH'/*.nupkg' --skip-duplicate -s https://api.nuget.org/v3/index.json -k ${{secrets.NUGET_KEY}}
